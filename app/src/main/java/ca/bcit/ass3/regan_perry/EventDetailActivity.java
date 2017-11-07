@@ -58,13 +58,11 @@ public class EventDetailActivity extends AppCompatActivity {
         SQLiteOpenHelper helper = new MyPartyDbHelper(this);
         EventDetail[] events = null;
         try {
-            helper.onUpgrade(db, 0, 2);
             db = helper.getReadableDatabase();
             ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Beer", "Cans", 12), eventId);
-//            ((MyPartyDbHelper) helper).insertEvent(db, new EventMaster("Christmas Party", "Dec 20th, 2017", "12:30 PM"));
-//            ((MyPartyDbHelper) helper).insertEvent(db, new EventMaster("New Years Party", "Dec 31st, 2017", "8:00 PM"));
-
+//            ((MyPartyDbHelper) helper).insertEvent(db, new EventMaster("Test Party", "Dec 20th, 2017", "12:30 PM"));
 //            Cursor cursor= db.rawQuery("delete from Event_Master", null);
+
             Cursor cursor= db.rawQuery("select DISTINCT * from Event_Detail", null);
 
             Log.d("getEventDetail", "got readable database");
@@ -81,8 +79,6 @@ public class EventDetailActivity extends AppCompatActivity {
             }
         } catch (SQLiteException sqlex) {
             String msg = "[EventDetailActivity / getEventDetail] DB unavailable";
-
-
             msg += "\n\n" + sqlex.toString();
             Log.d("message", msg);
             Toast t = Toast.makeText(this, msg, Toast.LENGTH_LONG);

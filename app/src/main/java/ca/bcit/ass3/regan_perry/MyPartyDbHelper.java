@@ -14,42 +14,42 @@ import android.widget.Toast;
 
 public class MyPartyDbHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "MyParty.sqlite.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
     private Context context;
 
     public MyPartyDbHelper(Context context) {
         // The 3'rd parameter (null) is an advanced feature relating to cursors
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
-        Log.d("DBcontructor", "MyPArtyDB");
-
+        Log.d("MyPartyDBHelper", "Constructor");
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        Log.d("OnCreate", "MyPArtyDB");
-
+        Log.d("MyPartyDBHelper", "onCreate");
         updateMyDatabase(sqLiteDatabase, 0, DB_VERSION);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         updateMyDatabase(sqLiteDatabase, i, i1);
-        Log.d("upgrade", "MyPArtyDB");
+        Log.d("MyPartyDBHelper", "onUpgrade");
 
     }
 
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.d("updateMyDb", "MyPArtyDB");
-
+        Log.d("MyPartyDBHelper", "updateMyDatabase called");
         try {
             if (oldVersion < 1) {
+                Log.d("MyPartyDBHelper", "updateMyDatabase Table sql called");
                 db.execSQL(getEventMasterTableSql());
                 db.execSQL(getEventDetailTableSql());
             }
         } catch (SQLException sqle) {
             String msg = "[MyPartyDbHelper / updateMyDatabase] DB unavailable";
             msg += "\n\n" + sqle.toString();
+            Log.d("MyPartyDbHelper", msg);
+            System.out.println(msg);
             Toast t = Toast.makeText(context, msg, Toast.LENGTH_LONG);
             t.show();
         }
@@ -73,7 +73,8 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
         sql += "itemName TEXT, ";
         sql += "itemUnit TEXT, ";
         sql += "itemQuantity INTEGER, ";
-        sql += "FOREIGN KEY(_eventId) REFERENCES Event_Master(_eventId)); ";
+        sql += "eventId INTEGER, ";
+        sql += "FOREIGN KEY(eventId) REFERENCES Event_Master(_eventId)); ";
         return sql;
     }
 
