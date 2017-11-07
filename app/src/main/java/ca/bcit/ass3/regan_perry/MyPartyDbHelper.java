@@ -37,29 +37,15 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
             if (oldVersion < 1) {
-//                db.execSQL(getCreateCountryTableSql());
                 db.execSQL(getEventMasterTableSql());
+                db.execSQL(getEventDetailTableSql());
             }
-            if (oldVersion < 2)
-                db.execSQL("ALTER TABLE COUNTRY ADD COLUMN POPULATION NUMERIC;");
         } catch (SQLException sqle) {
-            String msg = "[MyPlanetDbHelper / updateMyDatabase/insertCountry] DB unavailable";
+            String msg = "[MyPartyDbHelper / updateMyDatabase] DB unavailable";
             msg += "\n\n" + sqle.toString();
             Toast t = Toast.makeText(context, msg, Toast.LENGTH_LONG);
             t.show();
         }
-    }
-
-    private String getCreateCountryTableSql() {
-        String sql = "";
-        sql += "CREATE TABLE COUNTRY (";
-        sql += "_id INTEGER PRIMARY KEY AUTOINCREMENT, ";
-        sql += "CONTINENT TEXT, ";
-        sql += "COUNTRY TEXT, ";
-        sql += "DESCRIPTION TEXT, ";
-        sql += "IMAGE_RESOURCE_ID INTEGER);";
-
-        return sql;
     }
 
     private String getEventMasterTableSql() {
@@ -83,17 +69,6 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
         return sql;
     }
 
-    private String getContributionTableSql() {
-        String sql = "";
-        sql += "CREATE TABLE Contribution (";
-        sql += "_contributionId INTEGER PRIMARY KEY AUTOINCREMENT, ";
-        sql += "name TEXT, ";
-        sql += "quantity INTEGER, ";
-        sql += "date TEXT, ";
-        sql += "FOREIGN KEY(_detailId) REFERENCES Event_Detail(_detailId)); ";
-        return sql;
-    }
-
 //    String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
 
 
@@ -103,6 +78,15 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
         values.put("date", eventMaster.getDate());
         values.put("time", eventMaster.getTime());
         db.insert("Event_Master", null, values);
+    }
+
+    public void insertEventDetail(SQLiteDatabase db, EventDetail eventDetail, int id) {
+        ContentValues values = new ContentValues();
+        values.put("name", eventDetail.getName());
+        values.put("unit", eventDetail.getUnit());
+        values.put("quantity", eventDetail.getQuantity());
+        values.put("_eventId", id);
+        db.insert("Event_Detail", null, values);
     }
 
 

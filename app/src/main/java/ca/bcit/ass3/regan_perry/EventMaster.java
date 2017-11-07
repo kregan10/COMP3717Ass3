@@ -9,11 +9,19 @@ public class EventMaster {
     private String Name;
     private String Date;
     private String Time;
+    private int id;
 
     public EventMaster(String name, String date, String time) {
         Name = name;
         Date = date;
         Time = time;
+    }
+
+    public EventMaster(String name, String date, String time, int id) {
+        Name = name;
+        Date = date;
+        Time = time;
+        this.id = id;
     }
 
     public String getTime() {
@@ -40,5 +48,13 @@ public class EventMaster {
 
     public void setName(String name) {
         Name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
