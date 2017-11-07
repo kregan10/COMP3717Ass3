@@ -58,6 +58,7 @@ public class EventDetailActivity extends AppCompatActivity {
         SQLiteOpenHelper helper = new MyPartyDbHelper(this);
         EventDetail[] events = null;
         try {
+            helper.onUpgrade(db, 0, 2);
             db = helper.getReadableDatabase();
             ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Beer", "Cans", 12), eventId);
 //            ((MyPartyDbHelper) helper).insertEvent(db, new EventMaster("Christmas Party", "Dec 20th, 2017", "12:30 PM"));

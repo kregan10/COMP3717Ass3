@@ -87,7 +87,6 @@ public class MainActivity extends Activity {
         } catch (SQLiteException sqlex) {
             String msg = "[MainActivity / getContinents] DB unavailable";
 
-
             msg += "\n\n" + sqlex.toString();
             Log.d("message", msg);
             Toast t = Toast.makeText(this, msg, Toast.LENGTH_LONG);

@@ -21,20 +21,27 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
         // The 3'rd parameter (null) is an advanced feature relating to cursors
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
+        Log.d("DBcontructor", "MyPArtyDB");
+
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         Log.d("OnCreate", "MyPArtyDB");
+
         updateMyDatabase(sqLiteDatabase, 0, DB_VERSION);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         updateMyDatabase(sqLiteDatabase, i, i1);
+        Log.d("upgrade", "MyPArtyDB");
+
     }
 
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d("updateMyDb", "MyPArtyDB");
+
         try {
             if (oldVersion < 1) {
                 db.execSQL(getEventMasterTableSql());
@@ -59,6 +66,7 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
     }
 
     private String getEventDetailTableSql() {
+        Log.d("inGetEventDetail", "Asdf");
         String sql = "";
         sql += "CREATE TABLE Event_Detail (";
         sql += "_detailId INTEGER PRIMARY KEY AUTOINCREMENT, ";
