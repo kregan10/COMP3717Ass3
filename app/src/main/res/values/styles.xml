@@ -1,5 +1,8 @@
 <resources>
 
+    <style name="title">
+        <item name="android:textSize">20sp</item>
+    </style>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->

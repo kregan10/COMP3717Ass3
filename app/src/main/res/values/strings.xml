@@ -2,4 +2,19 @@
     <string name="app_name">Regan_Perry</string>
     <string name="title_activity_event_detail">EventDetailActivity</string>
     <string name="title_activity_find_event">FindEventActivity</string>
+
+    <string name="pick_time">Pick Time</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="add_event_title">Enter New Event!</string>
+    <string name="event_hint">Enter event name here...</string>
+    <string name="action_settings">Settings</string>
+    <string name="date_label_set">Press the button to set the date</string>
+    <string name="date_button_set">Set Date</string>
+    <string name="date_view_set">The Date is: </string>
+    <string name="add_event">Add event</string>
+
+    <string name="date_selected"></string>
+
+    <string name="time_save">Set Time</string>
+    <string name="time_selected"></string>
 </resources>
