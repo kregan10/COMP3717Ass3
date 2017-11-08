@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Regan_Perry</string>
     <string name="title_activity_event_detail">EventDetailActivity</string>
+    <string name="title_activity_find_event">FindEventActivity</string>
 </resources>

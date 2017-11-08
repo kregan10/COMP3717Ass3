@@ -20,7 +20,12 @@
             android:name=".EventDetailActivity"
             android:label="@string/title_activity_event_detail"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".DetailActivity" />
+        <activity android:name=".AddEventActivity" />
+        <activity
+            android:name=".FindEventActivity"
+            android:label="@string/title_activity_find_event"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

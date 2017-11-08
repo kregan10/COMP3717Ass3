@@ -77,6 +77,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_new_event:
+                Intent i = new Intent(this,AddEventActivity.class);
+                this.startActivity(i);
+                return true;
+            case R.id.action_find_event:
+                Intent j = new Intent(this,FindEventActivity.class);
+                this.startActivity(j);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -94,14 +102,14 @@ public class MainActivity extends AppCompatActivity {
             ((MyPartyDbHelper) helper).insertEvent(db, new EventMaster("Halloween Party", "Oct 30th, 2017", "6:30 PM"));
             ((MyPartyDbHelper) helper).insertEvent(db, new EventMaster("Christmas Party", "Dec 20th, 2017", "12:30 PM"));
             ((MyPartyDbHelper) helper).insertEvent(db, new EventMaster("New Years Party", "Dec 31st, 2017", "8:00 PM"));
-
+            */
             ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Beer", "Cans", 12), 3);
             ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Chips", "Bags", 6), 3);
             ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Wine", "Bottles", 12), 1);
             ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Chips", "Bags", 6), 1);
             ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Beer", "Cans", 12), 2);
             ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Chips", "Bags", 6), 2);
-            */
+
 
             cursor = db.rawQuery("select DISTINCT * from Event_Master", null);
 
