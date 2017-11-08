@@ -1,14 +1,18 @@
 package ca.bcit.ass3.regan_perry;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,7 +22,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private Cursor cursor;
     private HashMap<Integer, String> eventMap;
@@ -27,6 +31,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         ListView list_events = (ListView) findViewById(R.id.list_events);
 
@@ -52,7 +59,6 @@ public class MainActivity extends Activity {
         });
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -60,19 +66,44 @@ public class MainActivity extends Activity {
         db.close();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu. This adds items to the app bar.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_new_event);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private EventMaster[] getEvents() {
         SQLiteOpenHelper helper = new MyPartyDbHelper(this);
         EventMaster[] events = null;
         try {
             db = helper.getReadableDatabase();
+            Cursor cursor;
+
+            /*
+            //Test Data. Remove Later.
             ((MyPartyDbHelper) helper).insertEvent(db, new EventMaster("Halloween Party", "Oct 30th, 2017", "6:30 PM"));
             ((MyPartyDbHelper) helper).insertEvent(db, new EventMaster("Christmas Party", "Dec 20th, 2017", "12:30 PM"));
             ((MyPartyDbHelper) helper).insertEvent(db, new EventMaster("New Years Party", "Dec 31st, 2017", "8:00 PM"));
 
-//            Cursor cursor= db.rawQuery("delete from Event_Master", null);
-            Cursor cursor= db.rawQuery("select DISTINCT * from Event_Master", null);
+            ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Beer", "Cans", 12), 3);
+            ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Chips", "Bags", 6), 3);
+            ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Wine", "Bottles", 12), 1);
+            ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Chips", "Bags", 6), 1);
+            ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Beer", "Cans", 12), 2);
+            ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Chips", "Bags", 6), 2);
+            */
 
-
+            cursor = db.rawQuery("select DISTINCT * from Event_Master", null);
 
             int count = cursor.getCount();
             events = new EventMaster[count];
@@ -92,8 +123,6 @@ public class MainActivity extends Activity {
             Toast t = Toast.makeText(this, msg, Toast.LENGTH_LONG);
             t.show();
         }
-
         return events;
     }
-
 }

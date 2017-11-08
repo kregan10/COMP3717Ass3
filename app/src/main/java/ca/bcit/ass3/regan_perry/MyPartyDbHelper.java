@@ -8,10 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
-/**
- * Created by A00127241 on 2017-10-19.
- */
-
 public class MyPartyDbHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "MyParty.sqlite.db";
     private static final int DB_VERSION = 3;
@@ -91,13 +87,11 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
 
     public void insertEventDetail(SQLiteDatabase db, EventDetail eventDetail, int id) {
         ContentValues values = new ContentValues();
-        values.put("name", eventDetail.getName());
-        values.put("unit", eventDetail.getUnit());
-        values.put("quantity", eventDetail.getQuantity());
-        values.put("_eventId", id);
+        values.put("itemName", eventDetail.getName());
+        values.put("itemUnit", eventDetail.getUnit());
+        values.put("itemQuantity", eventDetail.getQuantity());
+        values.put("eventId", id);
         db.insert("Event_Detail", null, values);
     }
-
-
 }
 

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class EventDetailActivity extends AppCompatActivity {
@@ -24,48 +25,47 @@ public class EventDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
-        int eventDetailId = 0;
         Intent i = getIntent();
+
         ListView list_event_details = (ListView) findViewById(R.id.list_event_details);
+        TextView name = (TextView) findViewById(R.id.nameText);
+        TextView date = (TextView) findViewById(R.id.dateText);
+        TextView time = (TextView) findViewById(R.id.timeText);
 
-        final EventDetail[] eventDetail = getEventDetail((Integer) i.getExtras().get("eventid"));
+        int eventId = (Integer) i.getExtras().get("eventid");
+        EventMaster event = getEvent(eventId);
 
-        String[] eventStrings = new String[eventDetail.length];
-        for(int j = 0; j < eventDetail.length; j++) {
-            eventStrings[j] = eventDetail[j].getName();
+        final EventDetail[] eventDetails = getEventDetail(eventId);
+        String[] eventStrings = new String[eventDetails.length];
+        for(int j = 0; j < eventDetails.length; j++) {
+            eventStrings[j] = eventDetails[j].getName();
         }
+
+        name.setText(event.getName());
+        date.setText(event.getDate());
+        time.setText(event.getTime());
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_list_item_1, eventStrings
         );
-
         list_event_details.setAdapter(arrayAdapter);
-
         list_event_details.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent = new Intent(MainActivity.this, EventDetailActivity.class);
-//                intent.putExtra("id", events[i].getId());
-//                startActivity(intent);
+                Intent intent = new Intent(EventDetailActivity.this, DetailActivity.class);
+                intent.putExtra("id", eventDetails[i].getDetailId());
+                startActivity(intent);
             }
         });
-
-
     }
-
 
     private EventDetail[] getEventDetail(int eventId) {
         SQLiteOpenHelper helper = new MyPartyDbHelper(this);
         EventDetail[] events = null;
         try {
             db = helper.getReadableDatabase();
-            ((MyPartyDbHelper) helper).insertEventDetail(db, new EventDetail("Beer", "Cans", 12), eventId);
-//            ((MyPartyDbHelper) helper).insertEvent(db, new EventMaster("Test Party", "Dec 20th, 2017", "12:30 PM"));
-//            Cursor cursor= db.rawQuery("delete from Event_Master", null);
 
-            Cursor cursor= db.rawQuery("select DISTINCT * from Event_Detail", null);
-
-            Log.d("getEventDetail", "got readable database");
+            Cursor cursor= db.rawQuery("select DISTINCT * from Event_Detail where eventId=" + eventId, null);
 
             int count = cursor.getCount();
             events = new EventDetail[count];
@@ -73,7 +73,8 @@ public class EventDetailActivity extends AppCompatActivity {
             if (cursor.moveToFirst()) {
                 int ndx=0;
                 do {
-                    EventDetail newEvent =  new EventDetail(cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(0));
+                    EventDetail newEvent =  new EventDetail(cursor.getString(1),
+                            cursor.getString(2), cursor.getInt(3), cursor.getInt(0));
                     events[ndx++] = newEvent;
                 } while (cursor.moveToNext());
             }
@@ -81,11 +82,26 @@ public class EventDetailActivity extends AppCompatActivity {
             String msg = "[EventDetailActivity / getEventDetail] DB unavailable";
             msg += "\n\n" + sqlex.toString();
             Log.d("message", msg);
-            Toast t = Toast.makeText(this, msg, Toast.LENGTH_LONG);
-            t.show();
         }
-
         return events;
     }
 
+    private EventMaster getEvent(int eventId) {
+        SQLiteOpenHelper helper = new MyPartyDbHelper(this);
+        EventMaster newEvent = null;
+        try {
+            db = helper.getReadableDatabase();
+
+            Cursor cursor= db.rawQuery("select DISTINCT * from Event_Master where _eventId=" + eventId, null);
+            if (cursor.moveToFirst()) {
+                newEvent = new EventMaster(cursor.getString(1), cursor.getString(2),
+                        cursor.getString(3), cursor.getInt(0));
+            }
+        } catch (SQLiteException sqlex) {
+            String msg = "[EventDetailActivity / getEventDetail] DB unavailable";
+            msg += "\n\n" + sqlex.toString();
+            Log.d("message", msg);
+        }
+        return newEvent;
+    }
 }
