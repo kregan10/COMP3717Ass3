@@ -25,6 +25,10 @@
         <activity
             android:name=".FindEventActivity"
             android:label="@string/title_activity_find_event"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SearchResultActivity"
+            android:label="@string/title_activity_search_result"
             android:theme="@style/AppTheme"></activity>
     </application>
 

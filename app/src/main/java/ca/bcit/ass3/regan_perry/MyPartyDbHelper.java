@@ -2,6 +2,7 @@ package ca.bcit.ass3.regan_perry;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -12,6 +13,7 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "MyParty.sqlite.db";
     private static final int DB_VERSION = 3;
     private Context context;
+    private Cursor cursor;
 
     public MyPartyDbHelper(Context context) {
         // The 3'rd parameter (null) is an advanced feature relating to cursors
@@ -92,6 +94,12 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
         values.put("itemQuantity", eventDetail.getQuantity());
         values.put("eventId", id);
         db.insert("Event_Detail", null, values);
+    }
+
+    public EventMaster[] findEvent(SQLiteDatabase db, String eventName) {
+        cursor=db.rawQuery("SELECT * FROM Event_Master" + " WHERE name LIKE " + eventName, null);
+        Log.d("inFindEvent", cursor.toString());
+        return null;
     }
 }
 

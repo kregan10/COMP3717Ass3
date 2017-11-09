@@ -17,4 +17,9 @@
 
     <string name="time_save">Set Time</string>
     <string name="time_selected"></string>
+    <string name="find_an_event">Find an event</string>
+    <string name="enter_event_name">Enter event name..</string>
+    <string name="submit">Submit</string>
+    <string name="title_activity_search_result">SearchResultActivity</string>
+    <string name="search_results">Search Results:</string>
 </resources>

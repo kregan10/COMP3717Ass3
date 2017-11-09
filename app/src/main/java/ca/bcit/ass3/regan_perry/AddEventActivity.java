@@ -3,7 +3,11 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.util.EventLog;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TimePicker;
 import android.view.View;
@@ -13,14 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class AddEventActivity extends Activity {
-    private DatePicker datePicker;
     private TimePicker timePicker1;
     private Calendar calendar;
     private TextView dateView;
     private TextView timeView;
     private Button addEventButton;
     private EventMaster eventToAdd;
-
     private EditText eventNameView;
     private String eventName;
 
@@ -62,12 +64,13 @@ public class AddEventActivity extends Activity {
 
         addEventButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                MyPartyDbHelper helper = new MyPartyDbHelper(AddEventActivity.this);
+                SQLiteDatabase db = helper.getReadableDatabase();
                 eventName = eventNameView.getText().toString();
                 eventTime = timeView.getText().toString();
                 eventDate = dateView.getText().toString();
                 eventToAdd = new EventMaster(eventName, eventDate, eventTime);
-                addNewEvent(eventToAdd);
+                helper.insertEvent(db, eventToAdd);
             }
         });
     }
@@ -105,7 +108,6 @@ public class AddEventActivity extends Activity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
-        // TODO Auto-generated method stub
         if (id == 999) {
             return new DatePickerDialog(this,
                     myDateListener, year, month, day);
@@ -118,10 +120,6 @@ public class AddEventActivity extends Activity {
                 @Override
                 public void onDateSet(DatePicker arg0,
                                       int arg1, int arg2, int arg3) {
-                    // TODO Auto-generated method stub
-                    // arg1 = year
-                    // arg2 = month
-                    // arg3 = day
                     showDate(arg1, arg2+1, arg3);
                 }
             };
@@ -129,11 +127,6 @@ public class AddEventActivity extends Activity {
     private void showDate(int year, int month, int day) {
         dateView.setText(new StringBuilder().append(day).append("/")
                 .append(month).append("/").append(year));
-    }
-
-
-    private void addNewEvent(EventMaster event) {
-
     }
 
 }
