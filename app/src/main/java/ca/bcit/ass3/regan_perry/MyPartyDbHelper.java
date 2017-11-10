@@ -97,9 +97,17 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
     }
 
     public EventMaster[] findEvent(SQLiteDatabase db, String eventName) {
-        cursor=db.rawQuery("SELECT * FROM Event_Master" + " WHERE name LIKE " + eventName, null);
-        Log.d("inFindEvent", cursor.toString());
-        return null;
+        cursor=db.rawQuery("SELECT * FROM Event_Master" + " WHERE name = '" + eventName +"';", null);
+        int count = cursor.getCount();
+        EventMaster[] events = new EventMaster[count];
+        if (cursor.moveToFirst()) {
+            int ndx=0;
+            do {
+                EventMaster newEvent =  new EventMaster(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getInt(0));
+                events[ndx++] = newEvent;
+            } while (cursor.moveToNext());
+        }
+        return events;
     }
 }
 

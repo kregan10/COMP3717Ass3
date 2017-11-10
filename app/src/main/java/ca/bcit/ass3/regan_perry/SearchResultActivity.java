@@ -17,6 +17,7 @@ import android.widget.TextView;
 public class SearchResultActivity extends AppCompatActivity {
 
     String eventName;
+    String[] eventResultStrings;
     ListView searchResults;
     private MyPartyDbHelper helper;
     private SQLiteDatabase db;
@@ -29,26 +30,33 @@ public class SearchResultActivity extends AppCompatActivity {
         Intent i = getIntent();
         eventName = i.getStringExtra("eventName");
         searchResults = findViewById(R.id.search_results);
+
+
         helper = new MyPartyDbHelper(this);
         db = helper.getReadableDatabase();
 
         eventResults = helper.findEvent(db, eventName);
+        String[] eventResultStrings = new String[eventResults.length];
+
         for(int j = 0; j < eventResults.length; j++) {
-            Log.d("event Name", eventResults[j].getName());
+            eventResultStrings[j] = eventResults[j].getName();
         }
-//
-//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-//                this, android.R.layout.simple_list_item_1, eventResults
-//        );
-//        list_event_details.setAdapter(arrayAdapter);
-//        list_event_details.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent = new Intent(EventDetailActivity.this, DetailActivity.class);
-//                intent.putExtra("id", eventDetails[i].getDetailId());
-//                startActivity(intent);
-//            }
-//        });
+
+
+        ListView search_results = (ListView) findViewById(R.id.search_results);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_list_item_1, eventResultStrings
+        );
+        search_results.setAdapter(arrayAdapter);
+        search_results.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(SearchResultActivity.this, EventDetailActivity.class);
+                intent.putExtra("eventid", eventResults[i].getId());
+                startActivity(intent);
+            }
+        });
 
     }
 

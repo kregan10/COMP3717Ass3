@@ -8,12 +8,6 @@
     tools:context="ca.bcit.ass3.regan_perry.SearchResultActivity"
     tools:showIn="@layout/activity_search_result">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/search_results"
-        android:textSize="25sp"/>
-
     <ListView
         android:id="@+id/search_results"
         android:layout_width="match_parent"
