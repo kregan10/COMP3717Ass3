@@ -11,6 +11,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +28,9 @@ public class EventDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
         Intent i = getIntent();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         ListView list_event_details = (ListView) findViewById(R.id.list_event_details);
         TextView name = (TextView) findViewById(R.id.nameText);
@@ -57,6 +62,33 @@ public class EventDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu. This adds items to the app bar.
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_new_event:
+                Intent i = new Intent(this,AddEventActivity.class);
+                this.startActivity(i);
+                return true;
+            case R.id.action_find_event:
+                Intent j = new Intent(this,FindEventActivity.class);
+                this.startActivity(j);
+                return true;
+            case R.id.action_edit:
+                return true;
+            case R.id.action_delete:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private EventDetail[] getEventDetail(int eventId) {
