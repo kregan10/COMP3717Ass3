@@ -9,6 +9,8 @@ import android.view.MenuItem;
 
 public class DetailActivity extends AppCompatActivity {
 
+    String eventIdString = null;
+    int eventId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +18,9 @@ public class DetailActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Intent i = getIntent();
+//        eventId = Integer.parseInt(i.getStringExtra("id", 0));
+
     }
 
     @Override
