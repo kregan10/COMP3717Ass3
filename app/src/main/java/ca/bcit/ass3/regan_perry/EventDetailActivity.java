@@ -85,7 +85,6 @@ public class EventDetailActivity extends AppCompatActivity {
             case R.id.action_edit:
                 return true;
             case R.id.action_delete:
-                db.de
                 Log.d("EventDetailActivity", "pressed");
                 return true;
             default:
