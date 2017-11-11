@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 public class EventDetailActivity extends AppCompatActivity {
     private SQLiteDatabase db;
-
+    EventMaster event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +38,7 @@ public class EventDetailActivity extends AppCompatActivity {
         TextView time = (TextView) findViewById(R.id.timeText);
 
         int eventId = (Integer) i.getExtras().get("eventid");
-        EventMaster event = getEvent(eventId);
+        event = getEvent(eventId);
 
         final EventDetail[] eventDetails = getEventDetail(eventId);
         String[] eventStrings = new String[eventDetails.length];
@@ -85,7 +85,9 @@ public class EventDetailActivity extends AppCompatActivity {
             case R.id.action_edit:
                 return true;
             case R.id.action_delete:
-                Log.d("EventDetailActivity", "pressed");
+                MyPartyDbHelper helper = new MyPartyDbHelper(this);
+                db = helper.getReadableDatabase();
+                helper.deleteEvent(db, event);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

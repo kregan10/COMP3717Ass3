@@ -87,7 +87,8 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
         values.put("name", eventMaster.getName());
         values.put("date", eventMaster.getDate());
         values.put("time", eventMaster.getTime());
-        db.insert(EVENT_MASTER, null, values);
+        eventMaster.setId((int)db.insert(EVENT_MASTER, null, values));
+        Log.d("hellpo", "hello");
     }
 
     public void insertEventDetail(SQLiteDatabase db, EventDetail eventDetail, int id) {
@@ -96,7 +97,10 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
         values.put("itemUnit", eventDetail.getUnit());
         values.put("itemQuantity", eventDetail.getQuantity());
         values.put("eventId", id);
-        db.insert(EVENT_DETAIL, null, values);
+        eventDetail.setDetailId((int)db.insert(EVENT_DETAIL, null, values));
+        Log.d("eventDelailID", "" + eventDetail.getDetailId());
+
+
     }
 
     public void editEvent(SQLiteDatabase db, EventMaster event) {
@@ -118,10 +122,12 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
 
     public void deleteEvent(SQLiteDatabase db, EventMaster event) {
         cursor=db.rawQuery("DELETE FROM Event_Master" + " WHERE _eventId = " + event.getId() +";", null);
+        db.close();
     }
 
-    public void deleteEventDetail(SQLiteDatabase db, EventMaster eventDetail) {
-        cursor=db.rawQuery("DELETE FROM Event_Detail" + " WHERE _detailId = " + eventDetail.getId() +";", null);
+    public void deleteEventDetail(SQLiteDatabase db, EventDetail eventDetail) {
+        cursor=db.rawQuery("DELETE FROM Event_Detail" + " WHERE _detailId = " + eventDetail.getDetailId() +";", null);
+        db.close();
     }
 
     public EventMaster[] findEvent(SQLiteDatabase db, String eventName) {
