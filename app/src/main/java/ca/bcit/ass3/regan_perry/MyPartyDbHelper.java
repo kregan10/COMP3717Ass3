@@ -12,6 +12,9 @@ import android.widget.Toast;
 public class MyPartyDbHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "MyParty.sqlite.db";
     private static final int DB_VERSION = 3;
+    private final String EVENT_MASTER = "EVENT_MASTER";
+    private final String EVENT_DETAIL = "EVENT_DETAIL";
+
     private Context context;
     private Cursor cursor;
 
@@ -84,7 +87,7 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
         values.put("name", eventMaster.getName());
         values.put("date", eventMaster.getDate());
         values.put("time", eventMaster.getTime());
-        db.insert("Event_Master", null, values);
+        db.insert(EVENT_MASTER, null, values);
     }
 
     public void insertEventDetail(SQLiteDatabase db, EventDetail eventDetail, int id) {
@@ -93,7 +96,32 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
         values.put("itemUnit", eventDetail.getUnit());
         values.put("itemQuantity", eventDetail.getQuantity());
         values.put("eventId", id);
-        db.insert("Event_Detail", null, values);
+        db.insert(EVENT_DETAIL, null, values);
+    }
+
+    public void editEvent(SQLiteDatabase db, EventMaster event) {
+        ContentValues values = new ContentValues();
+        values.put("name", event.getName());
+        values.put("date", event.getDate());
+        values.put("time", event.getTime());
+        db.update(EVENT_MASTER, values, "_id=" + event.getId(), null);
+    }
+    //https://stackoverflow.com/questions/9798473/sqlite-in-android-how-to-update-a-specific-row
+
+    public void editEventDetail(SQLiteDatabase db, EventDetail eventDetail) {
+        ContentValues values = new ContentValues();
+        values.put("itemName", eventDetail.getName());
+        values.put("itemUnit", eventDetail.getUnit());
+        values.put("itemQuantity", eventDetail.getQuantity());
+        db.update(EVENT_DETAIL, values, "_id=" + eventDetail.getDetailId(), null);
+    }
+
+    public void deleteEvent(SQLiteDatabase db, EventMaster event) {
+        cursor=db.rawQuery("DELETE FROM Event_Master" + " WHERE _eventId = " + event.getId() +";", null);
+    }
+
+    public void deleteEventDetail(SQLiteDatabase db, EventMaster eventDetail) {
+        cursor=db.rawQuery("DELETE FROM Event_Detail" + " WHERE _detailId = " + eventDetail.getId() +";", null);
     }
 
     public EventMaster[] findEvent(SQLiteDatabase db, String eventName) {
