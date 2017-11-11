@@ -29,7 +29,8 @@
         <activity
             android:name=".SearchResultActivity"
             android:label="@string/title_activity_search_result"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".EditEventActivity"></activity>
     </application>
 
 </manifest>
