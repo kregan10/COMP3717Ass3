@@ -88,6 +88,8 @@ public class EventDetailActivity extends AppCompatActivity {
                 MyPartyDbHelper helper = new MyPartyDbHelper(this);
                 db = helper.getReadableDatabase();
                 helper.deleteEvent(db, event);
+                Intent k = new Intent(EventDetailActivity.this, MainActivity.class);
+                this.startActivity(k);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

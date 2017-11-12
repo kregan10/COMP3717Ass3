@@ -39,7 +39,6 @@ public class DetailActivity extends AppCompatActivity {
         nameView.setText(event.getName());
         quantityView.setText("" + event.getQuantity());
         unitView.setText(event.getUnit());
-
     }
 
     @Override
@@ -66,7 +65,8 @@ public class DetailActivity extends AppCompatActivity {
                 MyPartyDbHelper helper = new MyPartyDbHelper(this);
                 db = helper.getReadableDatabase();
                 helper.deleteEventDetail(db, newEventDetail);
-                Log.d("inDetailActivity", "" + newEventDetail.getDetailId());
+                Intent k = new Intent(DetailActivity.this, MainActivity.class);
+                this.startActivity(k);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

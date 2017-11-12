@@ -67,7 +67,6 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
     }
 
     private String getEventDetailTableSql() {
-        Log.d("inGetEventDetail", "Asdf");
         String sql = "";
         sql += "CREATE TABLE Event_Detail (";
         sql += "_detailId INTEGER PRIMARY KEY AUTOINCREMENT, ";
@@ -79,16 +78,12 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
         return sql;
     }
 
-//    String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-
-
     public void insertEvent(SQLiteDatabase db, EventMaster eventMaster) {
         ContentValues values = new ContentValues();
         values.put("name", eventMaster.getName());
         values.put("date", eventMaster.getDate());
         values.put("time", eventMaster.getTime());
         eventMaster.setId((int)db.insert(EVENT_MASTER, null, values));
-        Log.d("hellpo", "hello");
     }
 
     public void insertEventDetail(SQLiteDatabase db, EventDetail eventDetail, int id) {
@@ -99,8 +94,6 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
         values.put("eventId", id);
         eventDetail.setDetailId((int)db.insert(EVENT_DETAIL, null, values));
         Log.d("eventDelailID", "" + eventDetail.getDetailId());
-
-
     }
 
     public void editEvent(SQLiteDatabase db, EventMaster event) {
@@ -121,12 +114,28 @@ public class MyPartyDbHelper extends SQLiteOpenHelper {
     }
 
     public void deleteEvent(SQLiteDatabase db, EventMaster event) {
-        cursor=db.rawQuery("DELETE FROM Event_Master" + " WHERE _eventId = " + event.getId() +";", null);
+        try {
+            Log.d("MyPartyDBHelper", "deleteEvent called");
+            db.execSQL("DELETE FROM Event_Master" + " WHERE _eventId = " + event.getId() +";");
+        } catch (SQLException sqle) {
+            String msg = "[MyPartyDbHelper / delete Event Master] DB unavailable";
+            msg += "\n\n" + sqle.toString();
+            Log.d("MyPartyDbHelper", msg);
+            System.out.println(msg);
+        }
         db.close();
     }
 
     public void deleteEventDetail(SQLiteDatabase db, EventDetail eventDetail) {
-        cursor=db.rawQuery("DELETE FROM Event_Detail" + " WHERE _detailId = " + eventDetail.getDetailId() +";", null);
+        try {
+            Log.d("MyPartyDBHelper", "deleteEventDetail called");
+            db.execSQL("DELETE FROM Event_Detail" + " WHERE _detailId = " + eventDetail.getDetailId() +";");
+        } catch (SQLException sqle) {
+            String msg = "[MyPartyDbHelper / delete Event Detail] DB unavailable";
+            msg += "\n\n" + sqle.toString();
+            Log.d("MyPartyDbHelper", msg);
+            System.out.println(msg);
+        }
         db.close();
     }
 

@@ -51,4 +51,14 @@ public class EventDetail {
     public void setDetailId(int detailId) {
         this.detailId = detailId;
     }
+
+    @Override
+    public String toString() {
+        return "EventDetail{" +
+                "name='" + name + '\'' +
+                ", unit='" + unit + '\'' +
+                ", quantity=" + quantity +
+                ", detailId=" + detailId +
+                '}';
+    }
 }
