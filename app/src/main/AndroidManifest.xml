@@ -30,7 +30,8 @@
             android:name=".SearchResultActivity"
             android:label="@string/title_activity_search_result"
             android:theme="@style/AppTheme" />
-        <activity android:name=".EditEventActivity"></activity>
+        <activity android:name=".EditEventActivity" />
+        <activity android:name=".AddEventDetailActivity"></activity>
     </application>
 
 </manifest>

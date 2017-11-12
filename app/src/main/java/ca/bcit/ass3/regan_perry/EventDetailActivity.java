@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 public class EventDetailActivity extends AppCompatActivity {
     private SQLiteDatabase db;
+    private int eventId;
     EventMaster event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class EventDetailActivity extends AppCompatActivity {
         TextView date = (TextView) findViewById(R.id.dateText);
         TextView time = (TextView) findViewById(R.id.timeText);
 
-        int eventId = (Integer) i.getExtras().get("eventid");
+        eventId = (Integer) i.getExtras().get("eventid");
         event = getEvent(eventId);
 
         final EventDetail[] eventDetails = getEventDetail(eventId);
@@ -75,7 +76,8 @@ public class EventDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_new_event:
-                Intent i = new Intent(this,AddEventActivity.class);
+                Intent i = new Intent(this, AddEventDetailActivity.class);
+                i.putExtra("eventId", eventId);
                 this.startActivity(i);
                 return true;
             case R.id.action_find_event:
